@@ -52,12 +52,10 @@
 #if PLATFORM_ID == 0 // Core
   #define pinLO(_pin) (PIN_MAP[_pin].gpio_peripheral->BRR = PIN_MAP[_pin].gpio_pin)
   #define pinHI(_pin) (PIN_MAP[_pin].gpio_peripheral->BSRR = PIN_MAP[_pin].gpio_pin)
-#elif (PLATFORM_ID == 6) || (PLATFORM_ID == 8) // Photon (6) or P1 (8)
+#else (PLATFORM_ID == 6) || (PLATFORM_ID == 8) // Photon (6) or P1 (8)
   STM32_Pin_Info* PIN_MAP2 = HAL_Pin_Map(); // Pointer required for highest access speed
   #define pinLO(_pin) (PIN_MAP2[_pin].gpio_peripheral->BSRRH = PIN_MAP2[_pin].gpio_pin)
   #define pinHI(_pin) (PIN_MAP2[_pin].gpio_peripheral->BSRRL = PIN_MAP2[_pin].gpio_pin)
-#else
-  #error "*** PLATFORM_ID not supported by this library. PLATFORM should be Core, Photon, or P1 ***"
 #endif
 // fast pin access
 #define pinSet(_pin, _hilo) (_hilo ? pinHI(_pin) : pinLO(_pin))
